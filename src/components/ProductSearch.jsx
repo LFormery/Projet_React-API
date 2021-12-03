@@ -4,22 +4,15 @@ import axios from 'axios';
 export default function ProductSearch(){
   const [productInfo, setProductInfo] = useState({});
 
-  // return axios.get("https://world.openfoodfacts.org/api/v0/product/7622210137258.json").then(data => {
-  //     if(data.status === 200) {
-  //       setProductInfo(data.data)
-  //       console.log(productInfo)
-  //     }
-  //     else return "cest partie en couillasse"
-  //   })
+  // https://www.robinwieruch.de/react-hooks-fetch-data/
 
-    useEffect(async () => {
-      const result = await axios(
-        'https://world.openfoodfacts.org/api/v0/product/7622210137258.json',
-      );
-      if(result.status === 200) setProductInfo(result.data);
-    }, []);
+  useEffect(async () => {
+    const result = await axios(
+      'https://world.openfoodfacts.org/api/v0/product/7622210137258.json',
+    );
+    if(result.status === 200) setProductInfo(result.data);
+  }, []);
 
-  
   console.log(productInfo)
 
   if (!productInfo.status) {
