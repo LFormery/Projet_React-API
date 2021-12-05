@@ -7,12 +7,22 @@ export default function Product(){
   const [barCode, setBarCode] = useState("")
   const [productInfo, setProductInfo] = useState(null)
   const [arrProducts, setArrProducts] = useState([])
+  const [keywordTarget, setKeywordTarget] = useState("")
 
   useEffect(() => {
     console.log("arrProducts est setté")
     localStorage.setItem("products", JSON.stringify(arrProducts))
     let saved = JSON.parse(localStorage.getItem("products"))
   },[arrProducts])
+
+  useEffect(() => {
+    let tmpRech = keywordTarget.toLowerCase();
+    let productsList =JSON.parse(localStorage.getItem("products"))
+    let res = productsList.find((element) => {
+      return element.name.toLowerCase().includes(tmpRech);
+    });
+    if(res) return displayCard(res)
+  },[keywordTarget])
 
   useEffect(() => {
     let productExists = false
@@ -53,38 +63,49 @@ export default function Product(){
   }
 
   let cardProduct = arrProducts.map((product)=> {
+    return displayCard(product)
+  })
+
+  function displayCard(element) {
     return (
       <div className="col-sm-3">
-        <div className="card" id={product.id}>
-              <img src={product.image} className="card-img-top" alt="..."></img>
-              <div className="card-body">
-                <h4 className="card-title fw-bold">{product.name}</h4>
-                <p className="card-text text-secondary">{product.quantity}</p>
-                <h6 className="card-text">{product.brands}</h6>
-                <p className="card-text">{product.desc}</p>
+      <div className="card" id={element.id}>
+            <img src={element.image} className="card-img-top" alt="..."></img>
+            <div className="card-body">
+              <h4 className="card-title fw-bold">{element.name}</h4>
+              <p className="card-text text-secondary">{element.quantity}</p>
+              <h6 className="card-text">{element.brands}</h6>
+              <p className="card-text">{element.desc}</p>
 
-                <ul className="nutriscore">
-                  <li className="(this.props.showBulkActions ? 'show' : 'hidden'">A</li>
-                  <li className="">B</li>
-                  <li className="">C</li>
-                  <li className="">D</li>
-                  <li className="currentScore">E</li>
-                </ul>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">{product.id}</small>
-              </div>
+              <ul className="nutriscore">
+                <li className="(this.props.showBulkActions ? 'show' : 'hidden'">A</li>
+                <li className="">B</li>
+                <li className="">C</li>
+                <li className="">D</li>
+                <li className="currentScore">E</li>
+              </ul>
             </div>
-      </div>
-  )
-  })
+            <div class="card-footer">
+              <small class="text-muted">{element.id}</small>
+            </div>
+          </div>
+    </div>
+    )
+  }
   
   return (
     <div className="container">
-      <div className="row">
-        <div className="input-group mb-3">
-          <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
-          <button className="btn btn-outline-info" onClick={search} type="button"> Entrer code barre </button>
+      <div className="form-row justify-content-start">
+        <div className="form-group col-sm-8">
+          <div className="input-group">
+            <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
+            <button className="btn btn-outline-info" onClick={search} type="button"> Entrer code barre </button>
+          </div>
+        </div>
+        <div className="form-group col-sm-2">
+          <div className="input-group">
+            <input type="search" value={keywordTarget} onChange={(e)=>{setKeywordTarget(e.target.value)}} className="form-control" placeholder="Mot-clés"  />
+          </div>
         </div>
       </div>
       <div className="row card-group d-flex justify-content-around">
