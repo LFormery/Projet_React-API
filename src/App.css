@@ -1,38 +1,47 @@
-.App {
-  text-align: center;
+.card {
+  width: 18rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nutriscore li {
+  display:inline-block;
+  padding:.6em .4em;
+  margin:0;
+  color:rgba(255,255,255,.5);
+  font-weight:bold;
+ }
+
+/*A*/
+.nutriscore li:nth-child(1) {
+  background:#387F46;
+  border-radius:.6em 0 0 .6em;
+}
+/*B*/
+.nutriscore li:nth-child(2) {background:#92BA47}
+/*C*/
+.nutriscore li:nth-child(3) {background:#F6CD46}
+/*D*/
+.nutriscore li:nth-child(4) {background:#E08731}
+/*E*/
+.nutriscore li:nth-child(5) {
+  background:#D54A26;
+  border-radius:0 .6em .6em 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+ul.nutriscore li.currentScore {
+  color:white;
+  border:.1em solid white;
+  border-radius:.8em;
+  padding:1em .5em;
+  margin:0 -.4em;
+  position:relative;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/*impression*/
+@media print {
+
+/*imprimable avec chrome*/
+body {
+  -webkit-print-color-adjust: exact !important;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import './App.css';
 import ProductSearch from './components/ProductSearch';
 import NavBar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
