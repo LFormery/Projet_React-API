@@ -9,7 +9,6 @@ export default function Product(){
   const [keywordTarget, setKeywordTarget] = useState("")
 
   useEffect(() => {
-    console.log("arrProducts est setté")
     localStorage.setItem("products", JSON.stringify(arrProducts))
     JSON.parse(localStorage.getItem("products"))
   },[arrProducts])
@@ -20,7 +19,8 @@ export default function Product(){
     let res = productsList.find((element) => {
       return element.name.toLowerCase().includes(tmpRech);
     });
-    if(res) return displayCard(res)
+    //if(res) return displayCard(res)
+    if(res) console.log(res)
   },[keywordTarget])
 
   useEffect(() => {
@@ -29,13 +29,16 @@ export default function Product(){
     arrProducts.forEach(product => {
           if (product.id == barCode){
             productExists = true
+            setBarCode("")
             return
           } 
     });
-     if (productExists) {
-       console.log(barCode + "existe dans mon tableau")
-     } else {
-       if(productInfo) {
+
+    if (productExists) {
+      console.log(barCode + "existe dans mon tableau")
+      setBarCode("")
+    } else {
+      if(productInfo) {
         let newProduct = {
           id: productInfo.product.id,
           quantity: productInfo.product.quantity,
@@ -47,9 +50,9 @@ export default function Product(){
           image: productInfo.product.image_url,
         }
         setArrProducts(arrProducts => [...arrProducts, newProduct])
-       }
-     }
-}, [productInfo]);
+      }
+    }
+  }, [productInfo]);
 
   function search() {
     let url = 'https://fr.openfoodfacts.org/api/v0/product/' + barCode + '.json'
@@ -68,28 +71,28 @@ export default function Product(){
   function displayCard(element) {
     return (
       <div className="col-sm-3">
-      <div className="card" id={element.id}>
-        <img src={element.image} className="card-img-top" alt="..."></img>
-        <div className="card-body">
-          <h4 className="card-title fw-bold">{element.name}</h4>
-          <p className="card-text text-secondary">{element.quantity}</p>
-          <h6 className="card-text">{element.brands}</h6>
-          <p className="card-text">{element.desc}</p>
+        <div className="card" id={element.id}>
+          <img src={element.image} className="card-img-top" alt="..."></img>
+          <div className="card-body">
+            <h4 className="card-title fw-bold">{element.name}</h4>
+            <p className="card-text text-secondary">{element.quantity}</p>
+            <h6 className="card-text">{element.brands}</h6>
+            <p className="card-text">{element.desc}</p>
 
-          <ul className="nutriscore">
-            <li className={element.nutriGrade==="a" ? "currentScore" : ""}>A</li>
-            <li className={element.nutriGrade==="b" ? "currentScore" : ""}>B</li>
-            <li className={element.nutriGrade==="c" ? "currentScore" : ""}>C</li>
-            <li className={element.nutriGrade==="d" ? "currentScore" : ""}>D</li>
-            <li className={element.nutriGrade==="e" ? "currentScore" : ""}>E</li>
-          </ul>
+            <ul className="nutriscore">
+              <li className={element.nutriGrade==="a" ? "currentScore" : ""}>A</li>
+              <li className={element.nutriGrade==="b" ? "currentScore" : ""}>B</li>
+              <li className={element.nutriGrade==="c" ? "currentScore" : ""}>C</li>
+              <li className={element.nutriGrade==="d" ? "currentScore" : ""}>D</li>
+              <li className={element.nutriGrade==="e" ? "currentScore" : ""}>E</li>
+            </ul>
+          </div>
+          <div className="card-footer">
+            <small className="text-muted">{element.id}</small>
+          </div>
+          <a type="button" id="delete-btn" onClick={ ()=> deleteCard(this.parentNode, element.id)} className="btn btn-danger">Supprimer</a>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">{element.id}</small>
-        </div>
-        <a type="button" id="delete-btn" onClick={ ()=> deleteCard(this.parentNode, element.id)} className="btn btn-danger">Supprimer</a>
       </div>
-    </div>
     )
   }
   
@@ -108,20 +111,14 @@ export default function Product(){
 
   return (
     <div className="container">
-      <div className="form-row justify-content-start">
-        <div className="form-group col-sm-8">
-          <div className="input-group">
-            <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
-            <button className="btn btn-outline-info" id="barCode-btn" onClick={search} type="submit"> Entrer code barre </button>
-          </div>
+        <div className="input-group">
+          <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
+          <button className="btn btn-outline-info" id="barCode-btn" onClick={search} type="submit"> Entrer code barre </button>
         </div>
-        <div className="form-group col-sm-2">
-          <div className="input-group">
-            <input type="search" value={keywordTarget} onChange={(e)=>{setKeywordTarget(e.target.value)}} className="form-control" placeholder="Mot-clés"  />
-          </div>
+        <div className="input-group mt-3">
+          <input type="search" value={keywordTarget} onChange={(e)=>{setKeywordTarget(e.target.value)}} className="form-control" placeholder="Nom du produit"  />
         </div>
-      </div>
-      <div className="row card-group d-flex justify-content-around">
+      <div className="row card-group d-flex justify-content-around mt-4">
         {cardProduct}
       </div>
     </div>
