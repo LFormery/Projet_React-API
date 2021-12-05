@@ -7,9 +7,11 @@ function App() {
   return (
     <div className="App row">
       <header className="App-header">
-        <NavBar titre="Application TodoList"/>
+        <NavBar titre="Application Food EAN"/>
       </header>
-      <Product />
+      <div className="container-sm">
+          <Product />
+      </div>
     </div>
   );
 }

@@ -47,18 +47,48 @@ export default function Product(){
     let url = 'https://fr.openfoodfacts.org/api/v0/product/' + barCode + '.json'
     axios.get(url).then(result => {
       if (result.status === 200) {
-        setProductInfo(result.data)
+        return setProductInfo(result.data)
       }
     }) 
   }
 
+  let cardProduct = arrProducts.map((product)=> {
+    return (
+      <div className="col-sm-3">
+        <div className="card" id={product.id}>
+              <img src={product.image} className="card-img-top" alt="..."></img>
+              <div className="card-body">
+                <h4 className="card-title fw-bold">{product.name}</h4>
+                <p className="card-text text-secondary">{product.quantity}</p>
+                <h6 className="card-text">{product.brands}</h6>
+                <p className="card-text">{product.desc}</p>
 
+                <ul className="nutriscore">
+                  <li className="(this.props.showBulkActions ? 'show' : 'hidden'">A</li>
+                  <li className="">B</li>
+                  <li className="">C</li>
+                  <li className="">D</li>
+                  <li className="currentScore">E</li>
+                </ul>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">{product.id}</small>
+              </div>
+            </div>
+      </div>
+  )
+  })
   
   return (
-    <div>
-      <div className="input-group mb-3">
-        <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
-        <button className="btn btn-outline-info" onClick={search} type="button"> Rechercher </button>
+    <div className="container">
+      <div className="row">
+        <div className="input-group mb-3">
+          <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
+          <button className="btn btn-outline-info" onClick={search} type="button"> Entrer code barre </button>
+        </div>
+      </div>
+      <div className="row card-group d-flex justify-content-around">
+        {cardProduct}
       </div>
     </div>
   )
