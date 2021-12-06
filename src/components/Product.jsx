@@ -10,7 +10,7 @@ export default function Product(){
 
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(arrProducts))
-    JSON.parse(localStorage.getItem("products"))
+    //JSON.parse(localStorage.getItem("products"))
   },[arrProducts])
 
   useEffect(() => {
