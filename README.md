@@ -1,7 +1,8 @@
 # Projet_React-API
+
 Ipssi School Project
 
-##Instructions
+## Instructions
 
 - [x] Réaliser une application ReactJs avec l'outil Create-React-App
 
@@ -16,7 +17,7 @@ Ipssi School Project
 
 - [x] Une fois l'EAN saisi vous devrez utilsier l'API de Food Facts (cf: pièce jointe) afin de récupérer les informations liées au produit en question.
 
-- [ ] Tous les produits recherchés devront être stockés dans un localStorage
+- [x] Tous les produits recherchés devront être stockés dans un localStorage
 
 - [x] Vous devrez afficher la liste des produits dans des cards Bootstrap (cf: la documentation officielle de Bootstrap)
 
@@ -27,11 +28,11 @@ Ipssi School Project
 * la marque
 * le nutriscore
 
-- [ ] Vous pourrez également supprimer une cards de la liste et par répercussion dans le localStorage également
+- [x] Vous pourrez également supprimer une cards de la liste et par répercussion dans le localStorage également
 
-- [ ] Vous pouvez également intégrer un champs de recherche afin de filtrer la liste des produits
+- [x] Vous pouvez également intégrer un champs de recherche afin de filtrer la liste des produits
 
-##Objectifs pédagogiques
+## Objectifs pédagogiques
 
 * Créer une application de base en React ☑️
 * Création de Composants ☑️
@@ -42,7 +43,6 @@ Ipssi School Project
 * Gestion du localStorage
 
 Bon courage à vous ✌
-
 
 
 ## Commentaires 
