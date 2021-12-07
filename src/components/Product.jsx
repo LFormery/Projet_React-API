@@ -10,22 +10,28 @@ export default function Product(){
 
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(arrProducts))
-    JSON.parse(localStorage.getItem("products"))
+    console.log(arrProducts)
+    //JSON.parse(localStorage.getItem("products"))
   },[arrProducts])
 
   useEffect(() => {
     let tmpRech = keywordTarget.toLowerCase();
     let productsList =JSON.parse(localStorage.getItem("products"))
-    let res = productsList.find((element) => {
-      return element.name.toLowerCase().includes(tmpRech);
+    let res = productsList.filter((element) => {
+      const name = element.name.toLowerCase();
+      const brands = element.brands.toLowerCase();
+      const desc = element.desc.toLowerCase();
+
+      if (name.indexOf(tmpRech) > -1) return element;
+      if (brands.indexOf(tmpRech) > -1) return element;
+      if (desc.indexOf(tmpRech) > -1) return element;
+
     });
-    //if(res) return displayCard(res)
-    if(res) console.log(res)
+    setArrProducts(res)
   },[keywordTarget])
 
   useEffect(() => {
-    let productExists = false
-
+    let productExists = undefined
     arrProducts.forEach(product => {
           if (product.id == barCode){
             productExists = true
@@ -33,11 +39,7 @@ export default function Product(){
             return
           } 
     });
-
-    if (productExists) {
-      console.log(barCode + "existe dans mon tableau")
-      setBarCode("")
-    } else {
+    if (!productExists) {
       if(productInfo) {
         let newProduct = {
           id: productInfo.product.id,
@@ -50,15 +52,23 @@ export default function Product(){
           image: productInfo.product.image_url,
         }
         setArrProducts(arrProducts => [...arrProducts, newProduct])
+        setBarCode("")
+      } else {
+        alert("Le produit "+ barCode + " existe déjà dans ma liste")
+        setBarCode("")
+        return
       }
     }
   }, [productInfo]);
 
   function search() {
+    if(!barCode) return alert("Entrez un EAN")
     let url = 'https://fr.openfoodfacts.org/api/v0/product/' + barCode + '.json'
     axios.get(url).then(result => {
       if (result.status === 200) {
         return setProductInfo(result.data)
+      } else {
+        alert("Produit introuvable, vérifier l'EAN")
       }
     }) 
   }
@@ -67,14 +77,13 @@ export default function Product(){
     return displayCard(product)
   })
 
-
   function displayCard(element) {
     return (
       <div className="col-sm-3">
         <div className="card" id={element.id}>
-          <img src={element.image} className="card-img-top" alt="..."></img>
+          <img src={element.image} className="card-img-top p-5" alt="..."></img>
           <div className="card-body">
-            <h4 className="card-title fw-bold">{element.name}</h4>
+            <h5 className="card-title fw-bold">{element.name}</h5>
             <p className="card-text text-secondary">{element.quantity}</p>
             <h6 className="card-text">{element.brands}</h6>
             <p className="card-text">{element.desc}</p>
@@ -90,30 +99,24 @@ export default function Product(){
           <div className="card-footer">
             <small className="text-muted">{element.id}</small>
           </div>
-          <a type="button" id="delete-btn" onClick={ ()=> deleteCard(this.parentNode, element.id)} className="btn btn-danger">Supprimer</a>
+          <a type="button" id="delete-btn" key={element} onClick={ ()=> deleteCard(element)} className="btn btn-danger">Supprimer</a>
         </div>
       </div>
     )
   }
   
-  function deleteCard(card, elementId) {
-    let saved = JSON.parse(localStorage.getItem("products"))
-    
-    saved.forEach(function (items, i) {
-      if (items.id == elementId) {
-        saved.splice(i, 1);
-      }
-    });
-    saved = JSON.stringify(saved);
-    localStorage.setItem("products", saved);
-    
+  function deleteCard(element) {
+    let tmp = [...arrProducts];
+    const indice = arrProducts.indexOf(element);
+    if(indice > -1) tmp.splice(indice,1);
+    setArrProducts(tmp); 
   }
 
   return (
     <div className="container">
         <div className="input-group">
-          <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Rechercher ..."  />
-          <button className="btn btn-outline-info" id="barCode-btn" onClick={search} type="submit"> Entrer code barre </button>
+          <input type="search" value={barCode} onChange={(e)=>{setBarCode(e.target.value)}} className="form-control" placeholder="Entrer EAN ..."  />
+          <button className="btn btn-outline-info" id="barCode-btn" onClick={search} type="submit">Rechercher</button>
         </div>
         <div className="input-group mt-3">
           <input type="search" value={keywordTarget} onChange={(e)=>{setKeywordTarget(e.target.value)}} className="form-control" placeholder="Nom du produit"  />

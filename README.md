@@ -47,9 +47,9 @@ Bon courage à vous ✌
 
 ## Commentaires 
 
-* Je n'ai pas réussi à display mes cartes, je n'arrive pas à les supprimer de mon DOM via le bouton ou à afficher la carte que je cherche dans mon input Mot-clés
-
 * Le localstorage fonctionne sur safari, il persiste au refresh mais je n'ai pas réussi à le faire persister sur Chrome bien que je puisse ajouter et supprimer des éléments
+
+* Lorsque je filtre mes produits via un keyword, je n'ai pas réussi à récuperer l'ancien tableau (celui de tous mes produits rentrés)
 
 
 
