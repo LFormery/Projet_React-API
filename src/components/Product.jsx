@@ -27,8 +27,7 @@ export default function Product(){
       if (desc.indexOf(tmpRech) > -1) return element;
 
     });
-    console.log(res)
-    return displayCard(res)
+    setArrProducts(res)
   },[keywordTarget])
 
   useEffect(() => {
