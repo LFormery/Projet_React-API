@@ -34,9 +34,9 @@ Ipssi School Project
 
 ## Objectifs pédagogiques
 
-* Créer une application de base en React ✔️
+* Créer une application de base en React ✔︎
 * Création de Composants ☑️
-* Manipulation des conditions et des boucles ☑️
+* Manipulation des conditions et des boucles [x]
 * Utilisation des Hooks useState et useEffect ☑️
 * Utilisation d'API REST ☑️
 * Utilisation des promises
